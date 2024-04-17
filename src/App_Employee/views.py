@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import EmployeeForm
 
 # Create your views here.
 
@@ -15,10 +16,26 @@ def dashboard(request):
     return render(request, 'App_Employee\dashboard.html', context)
 
 def add_employee(request):
-    context = {
-        'title': 'Add Employee',
-    }
-    return render(request, 'App_Employee\\add_employee.html', context)
+    
+    if request.method == "GET":
+        form = EmployeeForm()
+        context = {
+            'title': 'Add Employee',
+            'form': form,
+        }
+        return render(request, 'App_Employee\\add_employee.html', context)
+    
+    else:
+        fn = request.POST.get('first_name')
+        ln = request.POST.get('last_name')
+        g = request.POST.get('gender')
+        bd = request.POST.get('birthday')
+        sa = request.POST.get('salary_select')
+        print(ln)
+        print(g)
+        print(bd)
+        print(sa)
+        return redirect('dashboard')
 
 def departments(request):
     context = {
