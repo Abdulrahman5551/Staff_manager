@@ -36,8 +36,6 @@
                 </div>
             </div>
             <a type="button" href="{%url 'create-department' %}" class="btn btn-success" fdprocessedid="a0kzok">New Department   <i class="fa fa-plus" style="font-size:16px"></i></a>
-            <a type="button" href="{%url 'create-employee' %}" class="btn btn-warning" fdprocessedid="a0kzok">Edit Department   <i class="fa fa-pencil-square-o" style="font-size:16px"></i></a>
-            <a type="button" href="{%url 'create-employee' %}" class="btn btn-danger" fdprocessedid="a0kzok">Remove Department   <i class="fa fa-minus" style="font-size:16px"></i></a>
         </div>
         <div class="col-sm-4">
             <form class="d-flex">
@@ -63,7 +61,7 @@
             <td>Column content</td>
             <td>Column content</td>
             <td>Column content</td>
-            <td>Column content</td>
+            <td><a href="{% url 'details-department' %}"><i class="fa fa-navicon" style="font-size:24px"></i></a></td>
           </tr>
 
         </tbody>

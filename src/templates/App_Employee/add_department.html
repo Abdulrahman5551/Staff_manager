@@ -8,7 +8,30 @@
 
 
 {% block content %}
-<div class="container p-5 my-5 border">
-<h1>Department Page</h1>
+    <div class="row mt-2">
+        <div class="col-sm-6">
+            <h2>New Department</h2>
+        </div>
+    </div>
+    <div class="row">
+        
+        <div class="col-md-8">
+        <div class="container p-4 my-3 border">
+            <form method="POST"> 
+                {% csrf_token%}
+                {{ form|crispy}}
+                <button type="submit" class="btn btn-success mt-4" fdprocessedid="mn3jc">Save</button>
+                <button type="reset" class="btn btn-light mt-4" fdprocessedid="uvlexr">Reset</button>
+                <a type="button" href="{% url 'dashboard' %}" class="btn btn-info mt-4" fdprocessedid="yuusmk">Return</a>
+            </form>
+        </div>
+        </div>
+        <div class="col-md-4">
+            <div class="container p-5 my-5 border">
+    
+            </div>
+            </div>
+    </div>
+    
 </div>
 {% endblock %}

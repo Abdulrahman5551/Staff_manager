@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>Details Department</h1>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-sm-4">
+            <h1>Name Department</h1>
+        </div>
+        <div class="col-sm-8">
+            <a type="button" href="{%url 'edit-department' 1%}" class="btn btn-warning " fdprocessedid="a0kzok">Edit Department   <i class="fa fa-pencil-square-o" style="font-size:16px"></i></a>
+            <a type="button" href="{%url 'delete-department' 1%}" class="btn btn-danger " fdprocessedid="a0kzok">Remove Department   <i class="fa fa-minus" style="font-size:16px"></i></a>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-sm-8">
+            <table class="table table-hover mt-3">
+                <thead>
+                  <tr>
+                    <th scope="col">EmpID</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Joined Date</th>
+                    <th scope="col">View</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="table-info">
+                    <th scope="row">Info</th>
+                    <td>Column content</td>
+                    <td>Column content</td>
+                    <td>Column content</td>
+                  </tr>
+        
+                </tbody>
+              </table>
+        </div>
+        <div class="col-sm-4">
+            
+        </div>
+    </div>
+
+
+{% endblock %}
