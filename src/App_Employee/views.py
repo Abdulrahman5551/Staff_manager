@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import EmployeeForm, DepartmentModelForm
 from .models import *
+from django.contrib import messages
 
 # Create your views here.
 
@@ -26,7 +27,7 @@ def add_employee(request):
             'form': form,
             'departments': departments,
         }
-        return render(request, 'App_Employee\\add_employee.html', context)
+        return render(request, 'App_Employee\\Employees\\add_employee.html', context)
     
     else:
         fn = request.POST.get('first_name')
@@ -55,11 +56,12 @@ def add_employee(request):
         return redirect('dashboard')
 
 def departments(request):
-
+    departments = Department.objects.all()
     context = {
         'title': 'Departments Page',
+        'departments': departments,
     }
-    return render(request, 'App_Employee\departments.html', context)
+    return render(request, 'App_Employee\\Department\\departments.html', context)
 
 def add_department(request):
     if request.method == "GET":
@@ -68,7 +70,7 @@ def add_department(request):
             'title': 'Add Department',
             'form': form,
         }
-        return render(request, 'App_Employee\\add_department.html', context)
+        return render(request, 'App_Employee\\\Department\\add_department.html', context)
     
     else:
         form = DepartmentModelForm(request.POST)
@@ -77,28 +79,65 @@ def add_department(request):
             form.save()
             return redirect('department')
 
-def details_department(request):
-        context = {
-            'title': 'Details Department',
-        }
-        return render(request, 'App_Employee\\details_department.html', context)
+def details_department(request, id):
+    department = get_object_or_404(Department, pk=id)
+    for data in department.employee_set.all():
+        print(data.id)
+    context = {
+        'title': 'Details Department',
+        'department': department,
+    }
+    return render(request, 'App_Employee\\\Department\\details_department.html', context)
 
 def edit_department(request, id):
+    dp = Department.objects.get(pk=id)
+    
     if request.method == "GET":
-        dp = Department.objects.get(pk=id)
-        form = DepartmentModelForm(request.POST, instance=dp)
+        form = DepartmentModelForm(instance=dp)
         context = {
             'title': 'Edit Department',
             'form': form,
             }
-        return render(request, 'App_Employee\\edit_department.html', context)
+        return render(request, 'App_Employee\\\Department\\edit_department.html', context)
+    
+    else:
+        form = DepartmentModelForm(request.POST, instance=dp)
+        if form.is_valid():
+            form.save()
+            print("Save ..")
+            return redirect('department')
 
 def delete_department(request, id):
+    department = get_object_or_404(Department, pk=id)
+    if request.method == "GET":
 
         context = {
             'title': 'Delete Department',
+            'department': department
             }
-        return render(request, 'App_Employee\\delete_department.html', context)
+        return render(request, 'App_Employee\\\Department\\delete_department.html', context)
+    else:
+        department.delete()
+        print("delete ..")
+        return redirect('department')
+
+def remove_employee_from_department(request, id):
+    departments = Department.objects.all()
+
+    if request.method == "GET":
+        context = {
+            'title': 'Departments Page',
+            'departments': departments,
+            }
+        return render(request, 'App_Employee\\Department\\confirm_remove_employee.html', context)
+    
+    else:
+
+        employee = Employee.objects.get(pk=id)
+        employee.department = None
+        employee.save()
+        messages.success(request, 'Remove Employee successfully...')
+        return redirect('department')
 
 
 def compensations(request):

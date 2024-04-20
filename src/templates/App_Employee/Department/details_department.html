@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="row mt-5">
+        <div class="col-sm-4">
+          <div class="card text-white bg-info mb-3" style="max-width: 30rem;">
+            <div class="card-header">Created Date: {{department.create_date|date:"D d M Y"}}</div>
+            <div class="card-body">
+              <h4 class="card-title">Description Department</h4>
+              <p class="card-text">{{ department.description|title}}.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-8">
+          <div class="d-flex flex-column">
+            <div class="p-2 ">
+              <a type="button" href="{%url 'edit-department' department.id %}" class="btn btn-warning " fdprocessedid="a0kzok">Update Department      <i class="fa fa-pencil-square-o" style="font-size:16px"></i></a>
+            </div>
+            <div class="p-2">
+              <a type="button" href="{%url 'delete-department' department.id %}" class="btn btn-danger" fdprocessedid="a0kzok">Remove Department   <i class="fa fa-minus" style="font-size:16px"></i></a>
+            </div>
+            <div class="p-2">
+              <a type="button" href="{%url 'department' %}" class="btn btn-info" fdprocessedid="a0kzok">Back to Departments  <i class="fa fa-mail-reply" style="font-size:16px"></i></a>
+            </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row mt-2">
+        <div class="col-sm-4">
+            <h2>Name: {{ department }}</h2>
+        </div>
+        <div class="col-sm-8">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-8">
+            {% if department.employee_set.all.count > 0 %}
+            <table class="table table-hover mt-3">
+                <thead>
+                  <tr>
+                    <th scope="col">EmpID</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Joined Date</th>
+                    <th scope="col">View</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for employee in department.employee_set.all %}
+                  <tr class="table-info">
+                    <th scope="row">{{ employee.id }}</th>
+                    <td>{{ employee.first_name }} {{ employee.last_name }}</td>
+                    <td>{{employee.joined_date }}</td>
+                    <td><a href="{% url 'remove-employee-from-department' employee.id %}"><i class="fa fa-trash" style="font-size:21px;color:red"></i></a></td>
+                  </tr>
+                  {% endfor %}
+        
+                </tbody>
+              </table>
+              {% else %}
+              <div class="row">
+                <div class="col-sm-12 ">
+                  <p class=" d-flex justify-content-center mt-5"> <i class="fa fa-exclamation-circle" style="font-size:40px;color:orange"></i> </p>
+                  <h1 class=" d-flex justify-content-center mt-3 text-warning">No Employees!</h1>
+                </div>
+                </div>
+              {% endif %}
+        </div>
+        <div class="col-sm-4">
+            
+        </div>
+    </div>
+
+
+{% endblock %}

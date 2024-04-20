@@ -55,30 +55,38 @@
             </form>
         </div>
     </div>
+    {% if employee %}
+        <table class="table table-hover mt-3">
+            <thead>
+              <tr>
+                <th scope="col">EmpID</th>
+                <th scope="col">Full Name</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Birth Day</th>
+                <th scope="col">Dep.Name</th>
+                <th scope="col">Compensation</th>
+                <th scope="col">View</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-info">
+                <th scope="row">Info</th>
+                <td>Column content</td>
+                <td>Column content</td>
+                <td>Column content</td>
+                <td>Column content</td>
+                <td>Column content</td>
+                <td>Column content</td>
+              </tr>
 
-    <table class="table table-hover mt-3">
-        <thead>
-          <tr>
-            <th scope="col">EmpID</th>
-            <th scope="col">Full Name</th>
-            <th scope="col">Gender</th>
-            <th scope="col">Birth Day</th>
-            <th scope="col">Dep.Name</th>
-            <th scope="col">Compensation</th>
-            <th scope="col">View</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="table-info">
-            <th scope="row">Info</th>
-            <td>Column content</td>
-            <td>Column content</td>
-            <td>Column content</td>
-            <td>Column content</td>
-            <td>Column content</td>
-            <td>Column content</td>
-          </tr>
-
-        </tbody>
-      </table>
+            </tbody>
+          </table>
+      {% else %}
+      <div class="row">
+        <div class="col-sm-12">
+          <p class=" d-flex justify-content-center mt-5"> <i class="fa fa-exclamation-circle" style="font-size:40px;color:orange"></i> </p>
+          <h1 class=" d-flex justify-content-center mt-3 text-warning">No Employees!</h1>
+        </div>
+      </div>
+      {% endif %}
 {% endblock %}

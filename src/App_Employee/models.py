@@ -23,6 +23,7 @@ class Contact(models.Model):
 class Department(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
+    create_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -38,7 +39,7 @@ class Employee(models.Model):
     birth_date = models.DateField()
     salary = models.IntegerField(default=1000)
     contact = models.OneToOneField(Contact, on_delete=models.CASCADE)
-    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
     joined_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
