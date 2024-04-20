@@ -12,10 +12,15 @@ def index(request):
     return render(request, 'App_Employee\index.html', context)
 
 def dashboard(request):
+    employees = Employee.objects.all()
+    departments = Department.objects.all()
+    print(employees.count())
     context = {
         'title': 'Dashboard Page',
+        'employees': employees,
+        'departments': departments,
     }
-    return render(request, 'App_Employee\dashboard.html', context)
+    return render(request, 'App_Employee\\Employees\\dashboard.html', context)
 
 def add_employee(request):
     
@@ -55,6 +60,16 @@ def add_employee(request):
         print("Save ..")
         return redirect('dashboard')
 
+
+def details_employee(request, id):
+    employeeData = get_object_or_404(Employee, pk=id)
+
+    if request.method == "GET":
+        context = {
+            'title': 'Details Employee',
+            'employeeData': employeeData,
+    }
+    return render(request, 'App_Employee\\Employees\\details_employee.html', context)
 def departments(request):
     departments = Department.objects.all()
     context = {

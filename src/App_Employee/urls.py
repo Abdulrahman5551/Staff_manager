@@ -5,6 +5,7 @@ urlpatterns = [
    path('', views.index, name="index"),
    path('dashboard/', views.dashboard, name="dashboard"),
    path('create-employee/', views.add_employee, name="create-employee"),
+   path('details-employee/<int:id>/', views.details_employee, name="details-employee"),
 
 
    path('department/', views.departments, name="department"),

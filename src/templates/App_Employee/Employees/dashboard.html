@@ -20,11 +20,11 @@
             <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                   Number of Employees
-                  <span class="badge bg-primary rounded-pill">14</span>
+                  <span class="badge bg-primary rounded-pill">{{ employees.count }}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     Number of Departments
-                  <span class="badge bg-primary rounded-pill">2</span>
+                  <span class="badge bg-primary rounded-pill">{{ departments.count }}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     Number of Compensations
@@ -55,7 +55,7 @@
             </form>
         </div>
     </div>
-    {% if employee %}
+    {% if employees %}
         <table class="table table-hover mt-3">
             <thead>
               <tr>
@@ -69,16 +69,17 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="table-info">
-                <th scope="row">Info</th>
-                <td>Column content</td>
-                <td>Column content</td>
-                <td>Column content</td>
-                <td>Column content</td>
-                <td>Column content</td>
-                <td>Column content</td>
-              </tr>
-
+              {% for employee in employees %}
+                <tr class="table-info">
+                  <th scope="row">{{ employee.id }}</th>
+                  <td>{{ employee.first_name }} {{ employee.last_name }}</td>
+                  <td>{{ employee.gender }}</td>
+                  <td>{{ employee.birth_date }}</td>
+                  <td>{{ employee.department }}</td>
+                  <td>Column content</td>
+                  <td><a href="{% url 'details-employee' employee.id %}"><i class="fa fa-eye" style="font-size:20px;color:red"></i></a></td>
+                </tr>
+              {% endfor %}
             </tbody>
           </table>
       {% else %}
