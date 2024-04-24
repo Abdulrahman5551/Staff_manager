@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import EmployeeForm, DepartmentModelForm
+from .forms import  DepartmentModelForm,CreateContactEmployeeModelForm,CreateEmployeeModelForm,UpdateContactEmployeeModelForm,UpdateEmployeeModelForm
 from .models import *
 from django.contrib import messages
 
@@ -22,47 +22,66 @@ def dashboard(request):
     }
     return render(request, 'App_Employee\\Employees\\dashboard.html', context)
 
-def add_employee(request):
-    
+def create_contact(request):
+    formContact = CreateContactEmployeeModelForm()
+
     if request.method == "GET":
-        form = EmployeeForm()
-        departments = Department.objects.all()
         context = {
-            'title': 'Add Employee',
-            'form': form,
-            'departments': departments,
+            'formContact': formContact,
+            }
+        return render(request, 'App_Employee\\Employees\\create_contact_employee.html', context)
+    
+    elif request.method == "POST":
+        formContact = CreateContactEmployeeModelForm(request.POST)
+        if formContact.is_valid():
+            form = CreateEmployeeModelForm()
+            data = formContact.save(commit=False)
+            data.save()
+            context = {
+                'form': form,
+                }
+            return render(request, 'App_Employee\\Employees\\create_employee.html', context)
+    
+    context = {
+        'formContact': CreateContactEmployeeModelForm(request.POST),
         }
+    return render(request, 'App_Employee\\Employees\\create_contact_employee.html', context)
+
+
+def create_employee(request):
+    if request.method == "POST":
+        print("POST ...")
+        form = CreateEmployeeModelForm(request.POST)
+
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.contact.active = False
+            data.save()
+            
+        else:
+            context = {
+                'form': CreateEmployeeModelForm(request.POST),
+                }
+            return render(request, 'App_Employee\\Employees\\add_employee.html', context)
+    elif request.method == "GET":
+        context = {
+            'form': CreateEmployeeModelForm(),
+                }
+        return render(request, 'App_Employee\\Employees\\create_employee.html', context)
+
+    else:
+        print("No ..")
+        context = {
+            'form': CreateEmployeeModelForm(request.POST),
+            }
         return render(request, 'App_Employee\\Employees\\add_employee.html', context)
     
-    else:
-        fn = request.POST.get('first_name')
-        ln = request.POST.get('last_name')
-        gender = request.POST.get('gender')
-        birth_date = request.POST.get('birthdate')
-        print(birth_date)
-        salary = request.POST.get('salary_select')
-        phone = request.POST.get('phone')
-        email = request.POST.get('email')
-        address = request.POST.get('address')
-        city = request.POST.get('city')
-        dp = request.POST.get('department_select')
-        get_department = Department.objects.get(name=dp)
-
-        new_contact = Contact.objects.create(
-            phone=phone, email=email, address=address, city=city
-        )
-
-
-        employee = Employee.objects.create(
-            first_name=fn, last_name=ln, gender=gender, birth_date=birth_date,
-            salary=salary, contact=new_contact, department=get_department
-        )
-        print("Save ..")
-        return redirect('dashboard')
-
+    return redirect('dashboard')
+        
 
 def details_employee(request, id):
     employeeData = get_object_or_404(Employee, pk=id)
+    print(employeeData.salary)
 
     if request.method == "GET":
         context = {
