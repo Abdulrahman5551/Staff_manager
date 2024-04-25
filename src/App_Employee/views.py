@@ -23,24 +23,28 @@ def dashboard(request):
     return render(request, 'App_Employee\\Employees\\dashboard.html', context)
 
 def create_contact(request):
-    formContact = CreateContactEmployeeModelForm()
+    form_contact = CreateContactEmployeeModelForm()
+    form_employee = CreateEmployeeModelForm()
 
     if request.method == "GET":
         context = {
-            'formContact': formContact,
+            'form_contact': form_contact,
             }
         return render(request, 'App_Employee\\Employees\\create_contact_employee.html', context)
     
     elif request.method == "POST":
-        formContact = CreateContactEmployeeModelForm(request.POST)
-        if formContact.is_valid():
-            form = CreateEmployeeModelForm()
-            data = formContact.save(commit=False)
+        print("Contact POST PASS ...")
+        form_contact = CreateContactEmployeeModelForm(request.POST)
+        if form_contact.is_valid():
+            form_employee = CreateEmployeeModelForm()
+            data = form_contact.save(commit=False)
             data.save()
             context = {
-                'form': form,
+                'form_employee': form_employee,
                 }
             return render(request, 'App_Employee\\Employees\\create_employee.html', context)
+        else:
+            print("Contact POST no PASS !!")
     
     context = {
         'formContact': CreateContactEmployeeModelForm(request.POST),
@@ -49,35 +53,31 @@ def create_contact(request):
 
 
 def create_employee(request):
-    if request.method == "POST":
-        print("POST ...")
-        form = CreateEmployeeModelForm(request.POST)
-
-        if form.is_valid():
-            data = form.save(commit=False)
-            data.contact.active = False
-            data.save()
-            
-        else:
-            context = {
-                'form': CreateEmployeeModelForm(request.POST),
-                }
-            return render(request, 'App_Employee\\Employees\\add_employee.html', context)
-    elif request.method == "GET":
+    if request.method == "GET":
+        form_employee = CreateEmployeeModelForm()
         context = {
-            'form': CreateEmployeeModelForm(),
-                }
+            'form_employee': form_employee,
+        }
         return render(request, 'App_Employee\\Employees\\create_employee.html', context)
-
-    else:
-        print("No ..")
-        context = {
-            'form': CreateEmployeeModelForm(request.POST),
+    
+    elif request.method == "POST":
+        form_employee = CreateEmployeeModelForm(request.POST)
+        if form_employee.is_valid():
+            print("Employee POST PASS ...")
+            data_employee = form_employee.save(commit=False)
+            data_employee.save()
+        
+        else:
+            print("Employee POST no PASS !!")
+            form_employee = CreateEmployeeModelForm(request.POST)
+            context = {
+                'form_employee': form_employee,
             }
-        return render(request, 'App_Employee\\Employees\\add_employee.html', context)
+            return render(request, 'App_Employee\\Employees\\create_employee.html', context)
     
     return redirect('dashboard')
-        
+    
+            
 
 def details_employee(request, id):
     employeeData = get_object_or_404(Employee, pk=id)
