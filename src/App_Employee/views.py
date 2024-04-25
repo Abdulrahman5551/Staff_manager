@@ -89,6 +89,45 @@ def details_employee(request, id):
             'employeeData': employeeData,
     }
     return render(request, 'App_Employee\\Employees\\details_employee.html', context)
+
+def update_employee(request, id):
+    employee_data = get_object_or_404(Employee,pk=id)
+
+    if request.method == "GET":
+        print("Update Employee GET Pass ..")
+        employee_form = UpdateEmployeeModelForm(instance=employee_data)
+        contact_form = UpdateContactEmployeeModelForm(instance=employee_data.contact)
+        context = {
+            'employee_data': employee_data,
+            'employee_form' : employee_form,
+            'contact_form': contact_form,
+        }
+        return render(request, 'App_Employee\\Employees\\update_employee.html', context)
+    
+    elif request.method == "POST":
+        employee_form = UpdateEmployeeModelForm(request.POST, instance=employee_data)
+        contact_form = UpdateContactEmployeeModelForm(request.POST, instance=employee_data.contact)
+
+        if employee_form.is_valid() and contact_form.is_valid():
+            data_employee = employee_form.save(commit=False)
+            data_contact = contact_form.save(commit=False)
+
+            data_employee.save()
+            data_contact.save()
+            print("Update Employee and Contact Done ..")
+        
+        else:
+
+            context = {
+                'employee_form' : UpdateEmployeeModelForm(request.POST, instance=employee_data),
+                'contact_form' : UpdateContactEmployeeModelForm(request.POST, instance=employee_data.contact)
+            }
+
+            return render(request, 'App_Employee\\Employees\\update_employee.html', context)
+        print("Update Employee POST Pass ..")
+    
+    return redirect('dashboard')
+
 def departments(request):
     departments = Department.objects.all()
     context = {
@@ -172,16 +211,3 @@ def remove_employee_from_department(request, id):
         employee.save()
         messages.success(request, 'Remove Employee successfully...')
         return redirect('department')
-
-
-def compensations(request):
-    context = {
-        'title': 'Compensation Page',
-    }
-    return render(request, 'App_Employee\compensations.html', context)
-
-def add_compensation(request):
-    context = {
-        'title': 'Add Compensation',
-    }
-    return render(request, 'App_Employee\\add_compensations.html', context)

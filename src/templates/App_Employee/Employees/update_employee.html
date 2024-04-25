@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-12">
+        <h1 class="display-4">Update Employee: <small> Edit Data</small></h1>
+    </div>
+</div>
+
+<form action="{% url 'update-employee' employee_data.id %}" method="POST">
+    {% csrf_token%}
+
+<div class="row">
+
+    <div class="col-md-3">
+        <div class="container p-3 my-1 border ">
+            {{employee_form.first_name|as_crispy_field}}
+            {{employee_form.last_name|as_crispy_field}}
+            {{employee_form.gender|as_crispy_field}}
+            {{employee_form.birth_date|as_crispy_field}}
+            {{employee_form.salary|as_crispy_field}}
+            
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="container p-3 my-1 border ">
+            {{contact_form.phone|as_crispy_field}}
+            {{contact_form.email|as_crispy_field}}
+            {{contact_form.address|as_crispy_field}}
+            {{contact_form.city|as_crispy_field}}
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-12">
+      <div class="btn-group d-flex justify-content-center" role="group" aria-label="Basic checkbox toggle button group">
+
+          <a type="button" href="{% url 'details-employee' employee_data.id%}" class="btn btn-success">Back</a>
+          <button type="reset" class="btn btn-light">Reset</button>
+          <button type="submit" class="btn btn-success">Save</button>
+        </div>
+          
+    </div>
+  </div>
+</form>
+
+
+{% endblock %}

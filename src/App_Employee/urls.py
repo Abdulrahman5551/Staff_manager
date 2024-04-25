@@ -7,5 +7,6 @@ urlpatterns = [
    path('create-contact-employee/', views.create_contact, name="create-contact-employee"),
    path('create-employee/', views.create_employee, name="create-employee"),
    path('details-employee/<int:id>/', views.details_employee, name="details-employee"),
+   path('update-employee/<int:id>/', views.update_employee, name="update-employee"),
 
 ]

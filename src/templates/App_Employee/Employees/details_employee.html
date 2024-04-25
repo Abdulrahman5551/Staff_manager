@@ -11,25 +11,28 @@
     <div class="mt-4 p-5 bg-success text-dark d-flex justify-content-center">
         <div class="col-sm-4">
             <h4><i class="fa fa-address-card-o" style="font-size:30px"></i> Information Personl:</h4>
-            <h5 class="text-light"> <small>First Name: Abdulrahman</small></h5>
-            <h5 class="text-light"> <small>Last Name: Abdulrahman</small></h5>
-            <h5 class="text-light"> <small>Gender: Male</small></h5>
-            <h5 class="text-light"> <small>Birth Date: 2002-01-01</small></h5>
+            <h5 class="text-light"> <small>First Name: {{employeeData.first_name}}</small></h5>
+            <h5 class="text-light"> <small>Last Name: {{employeeData.last_name}}</small></h5>
+            <h5 class="text-light"> <small>Gender: {{employeeData.gender}}</small></h5>
+            <h5 class="text-light"> <small>Birth Date: {{employeeData.birth_date}}</small></h5>
 
-            <button type="button" class="btn btn-warning mt-5" fdprocessedid="z4p30c">Update Data <i class="fa fa-pencil-square-o" style="font-size:16px"></i></button>
-            <button type="button" class="btn btn-danger mt-5" fdprocessedid="rlq55k">Remove <i class="fa fa-minus" style="font-size:16px"></i></button>
+            <form action="{% url 'update-employee' employeeData.id %}" method="GET">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-warning mt-5" fdprocessedid="z4p30c">Update Data <i class="fa fa-pencil-square-o" style="font-size:16px"></i></button>
+                <button type="button" class="btn btn-danger mt-5" fdprocessedid="rlq55k">Remove <i class="fa fa-minus" style="font-size:16px"></i></button>
+            </form>
         </div>
         <div class="col-sm-4">
             <h4><i class="fa fa-phone-square" style="font-size:30px"></i> Contact:</h4>
-            <h5 class="text-light"> <small>Phone: +9660000000</small></h5>
-            <h5 class="text-light"> <small>Email: Abdulrahman@gmail.com</small></h5>
-            <h5 class="text-light"> <small>Address: AAA</small></h5>
-            <h5 class="text-light"> <small>City: city</small></h5>
+            <h5 class="text-light"> <small>Phone: {{employeeData.contact.phone}}</small></h5>
+            <h5 class="text-light"> <small>Email: {{employeeData.contact.email}}</small></h5>
+            <h5 class="text-light"> <small>Address: {{employeeData.contact.address}}</small></h5>
+            <h5 class="text-light"> <small>City: {{employeeData.contact.city}}</small></h5>
         </div>
         <div class="col-sm-4">
             <h4><i class="fa fa-group" style="font-size:30px"></i> Department:</h4>
-            <h5 class="text-light"> <small>Department Name: Name</small></h5>
-            <h5 class="text-light "> <small>Joined Date: 2004-01-01</small></h5>
+            <h5 class="text-light"> <small>Department Name: None</small></h5>
+            <h5 class="text-light "> <small>Joined Date: None</small></h5>
 
             <h4 class="mt-5"><i class="fa fa-newspaper-o" style="font-size:30px"></i> Compensations:</h4>
             <button type="button" class="btn btn-light btn-sm disabled" fdprocessedid="9zm3j7">Add  <i class="fa fa-plus-circle" style="font-size:16px"></i></button>
