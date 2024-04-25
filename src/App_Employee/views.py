@@ -126,6 +126,26 @@ def update_employee(request, id):
             return render(request, 'App_Employee\\Employees\\update_employee.html', context)
         print("Update Employee POST Pass ..")
     
+    return redirect('details-employee', id=employee_data.id)
+
+def delete_employee(request, id):
+    employee_data = get_object_or_404(Employee,pk=id)
+
+    if request.method == "GET":
+        context = {
+            'employee_data': employee_data,
+            }
+
+        return render(request, 'App_Employee\\Employees\\delete_employee.html', context)
+    
+    elif request.method == "POST":
+        employee_data.delete()
+        context = {
+            'employee_data': employee_data,
+            }
+
+        return render(request, 'App_Employee\\Employees\\confirm_delete_employee.html', context)
+    
     return redirect('dashboard')
 
 def departments(request):

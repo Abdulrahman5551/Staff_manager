@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-12 ">
+        <h1 class="display-4">Delete Employee: <small> Remove Data</small></h1>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="mt-4 p-5 bg-warning text-white">
+            <h1 class="display-5 d-flex justify-content-center">Confirm Delete</h1>
+            <p class="mt-4  d-flex justify-content-center">Are You Sure You Want To Delete The Employee? {{employee_data.first_name}} {{employee_data.last_name}}</p>
+
+            <div class="mt-4  d-flex justify-content-center">
+            <form  method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn bg-danger text-white mt-5" fdprocessedid="z4p30c">Yes, Delete <i class="fa fa-minus" style="font-size:16px"></i></button>
+                <a type="button" href="{% url 'details-employee' employee_data.id %}" class="btn btn-secondary mt-5" fdprocessedid="rlq55k">No, Go Back <i class="fa fa-mail-reply" style="font-size:16px"></i></a>
+            </form>
+        </div>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}
