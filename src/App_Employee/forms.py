@@ -17,7 +17,7 @@ class UpdateDepartmentEmployeeForm(forms.ModelForm):
 class CreateContactEmployeeModelForm(forms.ModelForm):
     class Meta:
         model = Contact
-        fields = ['phone','email','address','city','active']
+        fields = ('phone','email','address','city','active')
 
 class UpdateContactEmployeeModelForm(forms.ModelForm):
     class Meta:

@@ -15,25 +15,25 @@
     </div>
 </div>
 
-<form method="POST">
+<form action="{% url 'create-employee' %}" method="POST">
     {% csrf_token%}
 
 <div class="row">
 
     <div class="col-md-6">
         <div class="container p-3 my-1 border ">
-            {{form.first_name|as_crispy_field}}
-            {{form.last_name|as_crispy_field}}
-            {{form.gender|as_crispy_field}}
+            {{form_employee.first_name|as_crispy_field}}
+            {{form_employee.last_name|as_crispy_field}}
+            {{form_employee.gender|as_crispy_field}}
             
         </div>
     </div>
 
     <div class="col-md-6">
         <div class="container p-3 my-1 border ">
-            {{form.birth_date|as_crispy_field}}
-            {{form.salary|as_crispy_field}}
-            {{form.contact|as_crispy_field}}
+            {{form_employee.birth_date|as_crispy_field}}
+            {{form_employee.salary|as_crispy_field}}
+            {{form_employee.contact|as_crispy_field}}
         </div>
     </div>
 </div>
@@ -41,12 +41,10 @@
 <div class="row mt-3">
     <div class="col-md-12">
       <div class="btn-group d-flex justify-content-center" role="group" aria-label="Basic checkbox toggle button group">
-          <form method="POST" novalidate>
-              {% csrf_token%}
+
           <a type="button" href="{% url 'dashboard' %}" class="btn btn-success">Dashboard</a>
           <button type="reset" class="btn btn-light">Reset</button>
           <button type="submit" class="btn btn-success">Save</button>
-          </form>
         </div>
           
     </div>

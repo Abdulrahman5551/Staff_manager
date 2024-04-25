@@ -16,19 +16,20 @@
     </div>
 </div>
 
-<form method="POST">
+<form  method="POST">
     {% csrf_token%}
 <div class="row mt-3">
     <div class="col-md-6">
         <div class="container p-3 my-1 border ">
-            {{formContact.phone|as_crispy_field}}
-            {{formContact.email|as_crispy_field}}
+            {{form_contact.phone|as_crispy_field}}
+            {{form_contact.email|as_crispy_field}}
         </div>
     </div>
     <div class="col-md-6 ">
         <div class="container p-3 my-1 border  ">
-            {{formContact.address|as_crispy_field}}
-            {{formContact.city|as_crispy_field}}
+            {{form_contact.address|as_crispy_field}}
+            {{form_contact.city|as_crispy_field}}
+            {{form_contact.active|as_crispy_field}}
         </div>
   </div>
 </div>
@@ -36,12 +37,10 @@
   <div class="row mt-3">
   <div class="col-md-12">
     <div class="btn-group d-flex justify-content-center" role="group" aria-label="Basic checkbox toggle button group">
-        <form method="POST" novalidate>
-            {% csrf_token%}
+
         <a type="button" href="{% url 'dashboard' %}" class="btn btn-success">Dashboard</a>
         <button type="reset" class="btn btn-light">Reset</button>
         <button type="submit" class="btn btn-success">Next</button>
-        </form>
       </div>
         
   </div>
