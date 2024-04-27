@@ -9,7 +9,8 @@
 
 {% block content %}
     <div class="row mt-5">
-        <div class="col-sm-4">
+
+      <div class="col-sm-4">
           <div class="card text-white bg-info mb-3" style="max-width: 30rem;">
             <div class="card-header">Created Date: {{department.create_date|date:"D d M Y"}}</div>
             <div class="card-body">
@@ -18,26 +19,30 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-8">
-          <div class="d-flex flex-column">
-            <div class="p-2 ">
-              <a type="button" href="{%url 'edit-department' department.id %}" class="btn btn-warning " fdprocessedid="a0kzok">Update Department      <i class="fa fa-pencil-square-o" style="font-size:16px"></i></a>
-            </div>
-            <div class="p-2">
-              <a type="button" href="{%url 'delete-department' department.id %}" class="btn btn-danger" fdprocessedid="a0kzok">Remove Department   <i class="fa fa-minus" style="font-size:16px"></i></a>
-            </div>
-            <div class="p-2">
-              <a type="button" href="{%url 'department' %}" class="btn btn-info" fdprocessedid="a0kzok">Back to Departments  <i class="fa fa-mail-reply" style="font-size:16px"></i></a>
-            </div>
-            </div>
-        </div>
 
+        <div class="col-sm-3">
+          <div class="p-2">
+            <a type="button" href="{% url 'departments' %}" class="btn btn-info" fdprocessedid="a0kzok">Back to Departments  <i class="fa fa-mail-reply" style="font-size:16px"></i></a>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="p-2 ">
+            <a type="button" href="{% url 'update-department' department.id%}" class="btn btn-warning text-light" fdprocessedid="a0kzok">Update Department      <i class="fa fa-pencil-square-o" style="font-size:16px"></i></a>
+          </div>
+          <div class="p-2">
+            <a type="button" href="{% url 'delete-department' department.id%}" class="btn btn-danger text-light" fdprocessedid="a0kzok">Remove Department   <i class="fa fa-minus" style="font-size:16px"></i></a>
+          </div>
+        </div>
     </div>
-    <div class="row mt-2">
-        <div class="col-sm-4">
+
+    <div class="row">
+        <div class="col-sm-2 mt-2">
             <h2>Name: {{ department }}</h2>
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-4">
+          <div class="p-2">
+            <a type="button" href="{% url 'joining-department' department.id%}" class="btn bg-success text-light" fdprocessedid="a0kzok">Joining Employee    <i class="fa fa-pencil-square-o" style="font-size:16px"></i></a>
+          </div>
         </div>
     </div>
     <div class="row">
@@ -58,7 +63,7 @@
                     <th scope="row">{{ employee.id }}</th>
                     <td>{{ employee.first_name }} {{ employee.last_name }}</td>
                     <td>{{employee.joined_date }}</td>
-                    <td><a href="{% url 'remove-employee-from-department' employee.id %}"><i class="fa fa-trash" style="font-size:21px;color:red"></i></a></td>
+                    <td><a href="#"><i class="fa fa-trash" style="font-size:21px;color:red"></i></a></td>
                   </tr>
                   {% endfor %}
         

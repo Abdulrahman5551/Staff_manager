@@ -7,16 +7,15 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6">
-            <div class="container p-5 my-5 bg-danger text-white">
-                <h4 class="d-flex justify-content-center">Delete Department</h4>
-                <p class="d-flex justify-content-start mt-4">Are You Sure Delete This Departemtn? {{ department.name }}</p>
-                <div class="d-flex-justify-content-center mt-3">
+        <div class="col-md-12">
+            <div class="mt-4 p-5 bg-warning text-white">
+                <h4 class="display-5 d-flex justify-content-center">Delete Department</h4>
+                <p class="mt-4  d-flex justify-content-center">Are You Sure Delete This Departemtn? {{ department.name }}</p>
+                <div class="mt-4  d-flex justify-content-center">
                     <form method="POST">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-success mt-2" fdprocessedid="696n2">Confirm</button>
-                        <a type="button" href="{% url 'department' %}" class="btn btn-info mt-2" fdprocessedid="n7glwj">Return</a>
+                        <button type="submit" class="btn btn-success mt-2" fdprocessedid="696n2">Yes, Delete</button>
+                        <a type="button" href="{% url 'departments' %}" class="btn btn-info mt-2" fdprocessedid="n7glwj">No, Go Back</a>
                     </form>
                 </div>
             </div>

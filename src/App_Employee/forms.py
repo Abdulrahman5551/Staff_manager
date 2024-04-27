@@ -3,15 +3,15 @@ from django.forms.widgets import NumberInput
 from .models import Department, Employee, Contact
 
 
-class DepartmentModelForm(forms.ModelForm):
+class CreateDepartmentModelForm(forms.ModelForm):
     class Meta:
         model = Department
-        fields = '__all__'
+        fields = ('name', 'description')
 
 class UpdateDepartmentEmployeeForm(forms.ModelForm):
     class Meta:
         model = Department
-        fields = ('name',)
+        fields = ('name', 'description')
     
 
 class CreateContactEmployeeModelForm(forms.ModelForm):

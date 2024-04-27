@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h1 class="display-4">Joining Employees</h1>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <!-- column 1 -->
+        <div class="col-md-2"></div>
+
+        <!-- column 2 -->
+        <div class="col-md-8 d-flex justify-content-center">
+            <table class="table table-hover mt-3">
+                <thead>
+                  <tr>
+                    <th scope="col">EmpID</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">View</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for employee in employees %}
+                <tr class="table-info">
+                    <th scope="row">{{ employee.id }}</th>
+                    <td>{{ employee.first_name }} {{ employee.last_name }}</td>
+                    <td>{{ employee.gender }}</td>
+                    <form method="POST">
+                        {% csrf_token %}
+                    <td><button type="submit" class="btn btn-light btn-sm" name="empID" value="{{ employee.id }}"><i class="fa fa-plus-circle" style="font-size:16px;color:green"></i></button></td>
+                    </form>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- column 3 -->
+        <div class="col-md-2"></div>
+        
+    </div>
+
+{% endblock %}
