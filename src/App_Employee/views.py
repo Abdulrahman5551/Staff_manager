@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import  CreateDepartmentModelForm,CreateContactEmployeeModelForm,CreateEmployeeModelForm,UpdateContactEmployeeModelForm,UpdateEmployeeModelForm,UpdateDepartmentEmployeeForm
+from .forms import  CreateDepartmentModelForm,CreateContactEmployeeModelForm,CreateEmployeeModelForm,UpdateContactEmployeeModelForm,UpdateEmployeeModelForm,UpdateDepartmentEmployeeForm, CreateCompensationModelForm
 from .models import *
 from django.contrib import messages
 from django.utils import timezone
@@ -12,45 +12,58 @@ def index(request):
     }
     return render(request, 'App_Employee\index.html', context)
 
+# Dashboard : view All Employees and link Department and Compensation Pages
 def dashboard(request):
     employees = Employee.objects.all()
     departments = Department.objects.all()
-    print(employees.count())
+    compensations = Compensation.objects.all()
+
     context = {
         'title': 'Dashboard Page',
         'employees': employees,
         'departments': departments,
+        'compensations': compensations,
     }
     return render(request, 'App_Employee\\Employees\\dashboard.html', context)
 
+
+
 def create_contact(request):
+    # Create form Contact
     form_contact = CreateContactEmployeeModelForm()
+
+    # Create form Employees
     form_employee = CreateEmployeeModelForm()
 
     if request.method == "GET":
         context = {
-            'form_contact': form_contact,
+            'form_contact': form_contact, # Send Form Contact To Template
             }
         return render(request, 'App_Employee\\Employees\\create_contact_employee.html', context)
     
     elif request.method == "POST":
-        print("Contact POST PASS ...")
+
+        # Get Data From Request and Sand To From Contact
         form_contact = CreateContactEmployeeModelForm(request.POST)
+
         if form_contact.is_valid():
+
+            # Create Form Employees
             form_employee = CreateEmployeeModelForm()
             data = form_contact.save(commit=False)
+
+            # Save Data Contact
             data.save()
             context = {
-                'form_employee': form_employee,
+                'form_employee': form_employee, # Send Form Employee To Template
                 }
             return render(request, 'App_Employee\\Employees\\create_employee.html', context)
         else:
-            print("Contact POST no PASS !!")
-    
-    context = {
-        'formContact': CreateContactEmployeeModelForm(request.POST),
-        }
-    return render(request, 'App_Employee\\Employees\\create_contact_employee.html', context)
+            
+            context = {
+                'formContact': CreateContactEmployeeModelForm(request.POST),
+                }
+            return render(request, 'App_Employee\\Employees\\create_contact_employee.html', context)
 
 
 def create_employee(request):
@@ -151,9 +164,12 @@ def delete_employee(request, id):
 
 def departments(request):
     departments = Department.objects.all()
+    employees_joined = Employee.objects.filter(is_department=True)
+
     context = {
         'title': 'Departments Page',
         'departments': departments,
+        'employees_joined': len(employees_joined),
     }
     return render(request, 'App_Employee\\Department\\departments.html', context)
 
@@ -169,7 +185,6 @@ def create_department(request):
     else:
         form = CreateDepartmentModelForm(request.POST)
         if form.is_valid():
-            print("pass ..")
             form.save()
             return redirect('departments')
         
@@ -204,7 +219,6 @@ def update_department(request, id):
         form = UpdateDepartmentEmployeeForm(request.POST, instance=department)
         if form.is_valid():
             form.save()
-            print("Save ..")
             return redirect('department')
         
 def delete_department(request, id):
@@ -247,19 +261,69 @@ def joining_department(request, id):
 
 
 def remove_employee_from_department(request, id):
-    departments = Department.objects.all()
-
+    employee = Employee.objects.get(pk=id)
+    department = employee.department
     if request.method == "GET":
         context = {
             'title': 'Departments Page',
-            'departments': departments,
+            'department': department,
+            'employee': employee,
             }
         return render(request, 'App_Employee\\Department\\confirm_remove_employee.html', context)
     
     else:
 
-        employee = Employee.objects.get(pk=id)
         employee.department = None
+        employee.is_department = False
+        print(employee.is_department)
         employee.save()
-        messages.success(request, 'Remove Employee successfully...')
-        return redirect('department')
+        messages.success(request, 'Remove Employee Successfully...')
+        return redirect('details-department', id=department.id)
+
+
+# -------- Compensations -------------
+def compensations(request):
+    compensations = Compensation.objects.all()
+
+    if request.method == "GET":
+        context = {
+            'compensations' : compensations,
+        }
+        return render(request, 'App_Employee\\Compensations\\compensations.html', context)
+
+
+# Create Compensations
+def create_compensations(request):
+    form = CreateCompensationModelForm()
+
+    if request.method == "GET":
+
+        context = {
+            'form': form,
+        }
+
+        return render(request, 'App_Employee\\Compensations\\create_compensation.html', context)
+    
+    elif request.method == "POST":
+
+        form = CreateCompensationModelForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Create Successfully...')
+            return redirect('compensations')
+        
+        context = {
+            'form': form,
+        }
+
+        return render(request, 'App_Employee\\Compensations\\create_compensation.html', context)
+
+def get_employee_compensation(request, id):
+    compensations = Compensation.objects.all()
+
+    if request.method == "GET":
+        context = {
+            'compensations' : compensations,
+        }
+        return render(request, 'App_Employee\\Compensations\\get_employee_compensation.html', context)

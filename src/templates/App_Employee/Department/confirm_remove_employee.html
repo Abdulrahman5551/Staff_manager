@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="mt-4 p-5 bg-warning text-white">
+            <h4 class="display-5 d-flex justify-content-center">Remove Employee</h4>
+            <p class="mt-4  d-flex justify-content-center">Are You Sure Remove  {{ employee.first_name }}  from {{ department }} ?</p>
+            <div class="mt-4  d-flex justify-content-center">
+                <form method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success mt-2" fdprocessedid="696n2">Yes, Remove</button>
+                    <a type="button" href="{% url 'departments' %}" class="btn btn-info mt-2" fdprocessedid="n7glwj">No, Go Back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3"></div>
+</div>
+{% endblock %}

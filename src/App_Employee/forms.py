@@ -1,8 +1,10 @@
 from django import forms
 from django.forms.widgets import NumberInput
-from .models import Department, Employee, Contact
+from .models import Department, Employee, Contact, Compensation
 
 
+
+# 1 - Department
 class CreateDepartmentModelForm(forms.ModelForm):
     class Meta:
         model = Department
@@ -14,6 +16,8 @@ class UpdateDepartmentEmployeeForm(forms.ModelForm):
         fields = ('name', 'description')
     
 
+
+# 2 - Contact
 class CreateContactEmployeeModelForm(forms.ModelForm):
     class Meta:
         model = Contact
@@ -29,6 +33,22 @@ class UpdateContactEmployeeModelForm(forms.ModelForm):
             'city': forms.Select(attrs={'class':'form-control'}),
         }
 
+
+
+# 3 - Compensation
+class CreateCompensationModelForm(forms.ModelForm):
+    class Meta:
+        model = Compensation
+        fields = ('name',)
+
+class UpdateCompensationModelForm(forms.ModelForm):
+    class Meta:
+        model = Compensation
+        fields = ('name',)
+
+
+
+# 4 - Employee
 class CreateEmployeeModelForm(forms.ModelForm):
     choices_salary = (
         ('5000', '5000'),

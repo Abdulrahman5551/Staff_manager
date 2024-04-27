@@ -19,5 +19,12 @@ urlpatterns = [
    path('update-department/<int:id>/', views.update_department, name="update-department"),
    path('delete-department/<int:id>/', views.delete_department, name="delete-department"),
    path('joining-department/<int:id>/', views.joining_department, name="joining-department"),
+   path('remove-employee-department/<int:id>/', views.remove_employee_from_department, name="remove-employee-department"),
+
+   # Compensations
+   path('compensations/', views.compensations, name="compensations"),
+   path('create-compensations/', views.create_compensations, name="create-compensations"),
+
+   path('get-employee-compensations/<int:id>/', views.get_employee_compensation, name="get-employee-compensations"),
 
 ]

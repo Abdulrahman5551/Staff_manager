@@ -29,6 +29,12 @@ class Department(models.Model):
     def __str__(self):
         return self.name
 
+class Compensation(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+    
 class Employee(models.Model):
     choice_gender = [
         ('Male', 'Male'),
@@ -48,10 +54,15 @@ class Employee(models.Model):
     gender = models.CharField(choices=choice_gender, max_length=20)
     birth_date = models.DateField(null=True)
     salary = models.CharField(choices=choices_salary, max_length=100)
+    
     contact = models.OneToOneField(Contact, on_delete=models.CASCADE)
+    
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
     is_department = models.BooleanField(default=False)
     join_department_date = models.DateTimeField(auto_now_add=False, null=True, blank=True)
+
+    compensations = models.ManyToManyField(Compensation, null=True, blank=True)
+    
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'

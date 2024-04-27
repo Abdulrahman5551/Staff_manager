@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+
+{% block content %}
+  {% if messages %}
+  <div class="messages">
+  {% for message in messages %}
+    <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" fdprocessedid="e9o21dk"></button>
+      {{ message }}
+      <i class="fa fa-check-circle" style="font-size:24px;color:rgba(255, 253, 253, 0.993)"></i>
+    </div>
+  {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="row mt-2">
+
+    <div class="col-sm-3">
+        <div class="list-group">
+            <a href="{% url 'compensations' %}" class="list-group-item list-group-item-action active">Compensations</a>
+            <a href="{% url 'dashboard' %}" class="list-group-item list-group-item-action active">Employees</a>
+            <a href="{% url 'departments' %}" class="list-group-item list-group-item-action active">Department</a>
+          </div>
+    </div>
+
+    <div class="col-sm-3">
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Number of Compensations
+              <span class="badge bg-primary rounded-pill">{{ departments.count }}</span>
+            </li>
+          </ul>
+    </div>
+
+  </div>
+
+
+  <div class="row mt-5">
+    <div class="col-sm-8">
+        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+            <button type="button" class="btn btn-info" fdprocessedid="08t1t5">Sort</button>
+            <div class="btn-group" role="group">
+              <button id="btnGroupDrop3" type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" fdprocessedid="6b1bwl"></button>
+              <div class="dropdown-menu" aria-labelledby="btnGroupDrop3">
+                <a class="dropdown-item" href="#">Dropdown link</a>
+                <a class="dropdown-item" href="#">Dropdown link</a>
+              </div>
+            </div>
+        </div>
+        <a type="button" href="{% url 'create-compensations' %}" class="btn btn-success" fdprocessedid="a0kzok">New Compensations   <i class="fa fa-plus" style="font-size:16px"></i></a>
+    </div>
+    <div class="col-sm-4">
+        <form class="d-flex">
+        <input class="form-control me-sm-2" type="search" placeholder="Search">
+        <button class="btn btn-outline-info my-2 my-sm-0" type="submit" fdprocessedid="m3awm">Search</button>
+        </form>
+    </div>
+  </div>
+
+  {% if compensations %}
+    <table class="table table-hover mt-3">
+        <thead>
+          <tr>
+            <th scope="col">ComID</th>
+            <th scope="col">Compensation Name</th>
+            <th scope="col">No. Employees</th>
+            <th scope="col">Date Created</th>
+            <th scope="col">View</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for compensation in compensations %}
+          <tr class="table-info">
+            <th scope="row">{{ compensation.id }}</th>
+            <td>{{ compensation.name }}</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+          {% endfor %}
+          </tr>
+        </tbody>
+    </table>
+  {% else %}
+  <div class="row">
+    <div class="col-sm-12">
+      <p class=" d-flex justify-content-center mt-5"> <i class="fa fa-exclamation-circle" style="font-size:40px;color:orange"></i> </p>
+      <h1 class=" d-flex justify-content-center mt-3 text-warning">No Compensations!</h1>
+    </div>
+  </div>
+  {% endif %}
+{% endblock %}

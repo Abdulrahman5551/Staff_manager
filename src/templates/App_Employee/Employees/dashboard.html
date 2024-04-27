@@ -10,14 +10,14 @@
     <div class="row mt-2">
         <div class="col-sm-3">
             <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action active">Employees</a>
+                <a href="{% url 'dashboard' %}" class="list-group-item list-group-item-action active">Employees</a>
                 <a href="{% url 'departments' %}" class="list-group-item list-group-item-action">Department</a>
-                <a href="#" class="list-group-item list-group-item-action ">Compensation</a>
+                <a href="{% url 'compensations' %}" class="list-group-item list-group-item-action ">Compensation</a>
               </div>
         </div>
         <div class="col-sm-3">
             <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li class="list-group-item list-group-item-info d-flex justify-content-between align-items-center">
                   Number of Employees
                   <span class="badge bg-primary rounded-pill">{{ employees.count }}</span>
                 </li>
@@ -25,9 +25,9 @@
                     Number of Departments
                   <span class="badge bg-primary rounded-pill">{{ departments.count }}</span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li class="list-group-item list-group-item-success d-flex justify-content-between align-items-center">
                     Number of Compensations
-                  <span class="badge bg-primary rounded-pill">1</span>
+                  <span class="badge bg-primary rounded-pill">{{ compensations.count }}</span>
                 </li>
               </ul>
         </div>
