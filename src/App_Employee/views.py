@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import  CreateDepartmentModelForm,CreateContactEmployeeModelForm,CreateEmployeeModelForm,UpdateContactEmployeeModelForm,UpdateEmployeeModelForm,UpdateDepartmentEmployeeForm, CreateCompensationModelForm
+from .forms import  CreateDepartmentModelForm,CreateContactEmployeeModelForm,CreateEmployeeModelForm,UpdateContactEmployeeModelForm,UpdateEmployeeModelForm,UpdateDepartmentEmployeeForm, CreateCompensationModelForm, UpdateCompensationModelForm
 from .models import *
 from django.contrib import messages
 from django.utils import timezone
@@ -27,6 +27,9 @@ def dashboard(request):
     return render(request, 'App_Employee\\Employees\\dashboard.html', context)
 
 
+###############################################################################################
+
+# -------- Contact -------------
 
 def create_contact(request):
     # Create form Contact
@@ -66,6 +69,10 @@ def create_contact(request):
             return render(request, 'App_Employee\\Employees\\create_contact_employee.html', context)
 
 
+###############################################################################################
+
+
+# -------- Employee -------------
 def create_employee(request):
     if request.method == "GET":
         form_employee = CreateEmployeeModelForm()
@@ -162,6 +169,12 @@ def delete_employee(request, id):
     
     return redirect('dashboard')
 
+
+
+###############################################################################################
+
+
+# -------- Department -------------
 def departments(request):
     departments = Department.objects.all()
     employees_joined = Employee.objects.filter(is_department=True)
@@ -185,11 +198,11 @@ def create_department(request):
     else:
         form = CreateDepartmentModelForm(request.POST)
         if form.is_valid():
-            form.save()
+            data = form.save()
+            messages.success(request, f'Create New Department "{data.name}" Successfully...')
             return redirect('departments')
         
         else:
-            print("no pass !!")
             context = {
                 'form': CreateDepartmentModelForm(request.POST),
             }
@@ -219,7 +232,15 @@ def update_department(request, id):
         form = UpdateDepartmentEmployeeForm(request.POST, instance=department)
         if form.is_valid():
             form.save()
-            return redirect('department')
+            return redirect('details-department', id=department.id)
+        
+        else:
+            print("Form error!!!")
+            context = {
+            'title': 'Edit Department',
+            'form': form,
+            }
+            return render(request, 'App_Employee\\\Department\\update_department.html', context)
         
 def delete_department(request, id):
     department = get_object_or_404(Department, pk=id)
@@ -281,6 +302,10 @@ def remove_employee_from_department(request, id):
         return redirect('details-department', id=department.id)
 
 
+
+###############################################################################################
+
+
 # -------- Compensations -------------
 def compensations(request):
     compensations = Compensation.objects.all()
@@ -318,6 +343,67 @@ def create_compensations(request):
         }
 
         return render(request, 'App_Employee\\Compensations\\create_compensation.html', context)
+
+
+def update_compensation(request, id):
+    compensation = Compensation.objects.get(pk=id)
+    
+    if request.method == "GET":
+        form = UpdateCompensationModelForm(instance=compensation)
+        context = {
+            'titel': 'Edit Compensation',
+            'form': form,
+        }
+
+        return render(request, 'App_Employee\\Compensations\\update_compensation.html', context)
+    
+    elif request.method == "POST":
+        form = UpdateCompensationModelForm(request.POST, instance=compensation)
+
+        if form.is_valid():
+            form.save()
+            return redirect('details-compensation', id=compensation.id)
+        
+        else:
+
+            context = {
+                'titel': 'Edit Compensation',
+                'form': form,
+            }
+
+            return render(request, 'App_Employee\\Compensations\\update_compensation.html', context)
+
+
+def delete_compensation(request, id):
+    compensation = Compensation.objects.get(pk=id)
+
+    if request.method == "GET":
+
+        context = {
+            'compensation': compensation,
+        }
+
+        return render(request, 'App_Employee\\Compensations\\delete_compensation.html', context)
+
+    else:
+
+        compensation.delete()
+        return render(request, 'App_Employee\\Compensations\\confirm_delete_compensation.html')
+    
+
+def details_compensation(request, id):
+    compensation = get_object_or_404(Compensation, pk=id)
+    employee_has_compensation = compensation.employee_set.all()
+
+    if request.method == "GET":
+        context = {
+            'compensation': compensation,
+            'employee_has_compensation' :employee_has_compensation,
+        }
+        return render(request, 'App_Employee\\Compensations\\details_compensation.html', context)
+    
+    else:
+        pass
 
 def get_employee_compensation(request, id):
     compensations = Compensation.objects.all()

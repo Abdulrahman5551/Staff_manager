@@ -7,7 +7,17 @@
 
 
 {% block content %}
-  
+    {% if messages %}
+    <div class="messages">
+    {% for message in messages %}
+      <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" fdprocessedid="e9o21dk"></button>
+        {{ message }}
+        <i class="fa fa-check-circle" style="font-size:24px;color:rgba(255, 253, 253, 0.993)"></i>
+      </div>
+    {% endfor %}
+    </div>
+    {% endif %}
     <div class="row mt-2">
         <div class="col-sm-3">
             <div class="list-group">

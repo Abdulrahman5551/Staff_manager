@@ -24,6 +24,9 @@ urlpatterns = [
    # Compensations
    path('compensations/', views.compensations, name="compensations"),
    path('create-compensations/', views.create_compensations, name="create-compensations"),
+   path('details-compensation/<int:id>/', views.details_compensation, name="details-compensation"),
+   path('update-compensation/<int:id>/', views.update_compensation, name="update-compensation"),
+   path('delete-compensation/<int:id>/', views.delete_compensation, name="delete-compensation"),
 
    path('get-employee-compensations/<int:id>/', views.get_employee_compensation, name="get-employee-compensations"),
 

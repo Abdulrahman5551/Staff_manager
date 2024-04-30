@@ -72,6 +72,7 @@ class UpdateEmployeeModelForm(forms.ModelForm):
         ('4', '12.000'),
         ('5', '15.000'),
     ]
+    birth_date= forms.DateField(widget = NumberInput(attrs={'type':'date'}), disabled=False)
     class Meta:
         model = Employee
         fields = ('first_name','last_name','gender','birth_date','salary')
