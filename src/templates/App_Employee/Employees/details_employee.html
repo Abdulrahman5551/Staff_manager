@@ -37,7 +37,16 @@
             <h5 class="text-light "> <small>Joined Date: {{employeeData.join_department_date}}</small></h5>
 
             <h4 class="mt-5"><i class="fa fa-newspaper-o" style="font-size:30px"></i> Compensations:</h4>
-            <a type="button" href="{% url 'get-employee-compensations' employeeData.id %}" class="btn btn-light btn-sm" fdprocessedid="9zm3j7">Add  <i class="fa fa-plus-circle" style="font-size:16px"></i></a>
+            {% if employeeData.compensations.all %}
+            <ol>
+                {% for comp in employeeData.compensations.all %}
+                <li>{{ comp }}</li>
+                {% endfor %}
+            </ol>
+            {% else %}
+            <h5 class="text-light"> <small>No Have Compensations</small></h5>
+            {% endif %}
+            <!-- <a type="button" href="{% url 'get-employee-compensations' employeeData.id %}" class="btn btn-light btn-sm" fdprocessedid="9zm3j7">Add  <i class="fa fa-plus-circle" style="font-size:16px"></i></a> -->
         </div>
     </div>
 </div>

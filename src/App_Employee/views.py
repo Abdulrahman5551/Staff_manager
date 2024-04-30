@@ -4,6 +4,7 @@ from .models import *
 from django.contrib import messages
 from django.utils import timezone
 import datetime
+from django.db.models import Q
 # Create your views here.
 
 def index(request):
@@ -394,11 +395,14 @@ def delete_compensation(request, id):
 def details_compensation(request, id):
     compensation = get_object_or_404(Compensation, pk=id)
     employee_has_compensation = compensation.employee_set.all()
+    employee_no_has_compensation = Employee.objects.all().filter(~Q(compensations=compensation))
+
 
     if request.method == "GET":
         context = {
             'compensation': compensation,
             'employee_has_compensation' :employee_has_compensation,
+            'employee_no_has_compensation': employee_no_has_compensation,
         }
         return render(request, 'App_Employee\\Compensations\\details_compensation.html', context)
     
