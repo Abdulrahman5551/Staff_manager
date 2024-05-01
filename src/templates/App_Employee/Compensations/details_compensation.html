@@ -6,6 +6,13 @@
 
 
 {% block content %}
+
+{% for message in messages %}
+  <div class="alert alert-dismissible {{ message.tags }}" role="alert">
+    <div>{{ message | safe }}</div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{% endfor %}
 <div class="d-flex justify-content-center">
     <div>
     <h1>Details Compensation</h1>
@@ -40,7 +47,7 @@
 
     <!-- column 2 -->
     <div class="col-sm-6">
-        
+        {% if employee_has_compensation %}
         <table class="table table-hover mt-4">
             <thead>
               <tr>
@@ -52,21 +59,26 @@
             </thead>
             <tbody>
             {% for employee in employee_has_compensation %}
-              <tr class="table-info">
+              <tr class="table-success">
                 <th scope="row">{{ employee.id }}</th>
                 <td>{{ employee.first_name }} {{ employee.last_name }}</td>
                 <td>Column content</td>
-                <td><a href=""><i class="fa fa-minus-circle" style="font-size:22px;color:red"></i></a></td>
+                <td><a href="{% url 'remove-employee-compensations' compensation.id employee.id%}"><i class="fa fa-minus-circle" style="font-size:22px;color:red"></i></a></td>
               </tr>
               {% endfor %}
             </tbody>
           </table>
+          {% else %}
+          <p class=" d-flex justify-content-center mt-2"> <i class="fa fa-exclamation-circle" style="font-size:40px;color:orange"></i> </p>
+            <h4 class=" d-flex justify-content-center mt-3 text-warning">There Are No Employees!</h4>
+          {% endif %}
     </div>
 </div>
 
 <div class="row">
     <div class="col-sm-6">
         <div class="d-flex justify-content-center mt-5"><h1 class="text-warning">Not Registered</h1></div>
+        {% if employee_no_has_compensation %}
         <table class="table table-hover mt-4">
             <thead>
               <tr>
@@ -80,11 +92,15 @@
               <tr class="table-info">
                 <th scope="row">{{ employee.id }}</th>
                 <td>{{ employee.first_name }} {{ employee.last_name }}</td>
-                <td><a href=""><i class="fa fa-plus-circle" style="font-size:22px;color:rgb(25, 173, 12)"></i></a></td>
+                <td><a href="{% url 'get-employee-compensations' compensation.id employee.id%}"><i class="fa fa-plus-circle" style="font-size:22px;color:rgb(25, 173, 12)"></i></a></td>
               </tr>
             </tbody>
             {% endfor %}
           </table>
+          {% else %}
+          <p class=" d-flex justify-content-center mt-2"> <i class="fa fa-exclamation-circle" style="font-size:40px;color:orange"></i> </p>
+          <h4 class=" d-flex justify-content-center mt-3 text-warning">There Are No Employees Available!</h4>
+          {% endif %}
     </div>
 </div>
 {% endblock %}

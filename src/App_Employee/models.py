@@ -31,6 +31,8 @@ class Department(models.Model):
 
 class Compensation(models.Model):
     name = models.CharField(max_length=100)
+    reward_price = models.IntegerField(default=500)
+    create_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -58,10 +60,11 @@ class Employee(models.Model):
     contact = models.OneToOneField(Contact, on_delete=models.CASCADE)
     
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
-    is_department = models.BooleanField(default=False)
+    is_department = models.BooleanField(default=False, db_column='is Department')
     join_department_date = models.DateTimeField(auto_now_add=False, null=True, blank=True)
 
     compensations = models.ManyToManyField(Compensation, null=True, blank=True)
+    is_compensation = models.BooleanField(default=False, db_column='is Compensations')
     
 
     def __str__(self):

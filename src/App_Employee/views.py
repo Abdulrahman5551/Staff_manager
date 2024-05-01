@@ -249,7 +249,7 @@ def delete_department(request, id):
 
         context = {
             'title': 'Delete Department',
-            'department': department
+            'department': department,
             }
         return render(request, 'App_Employee\\\Department\\delete_department.html', context)
     else:
@@ -310,10 +310,14 @@ def remove_employee_from_department(request, id):
 # -------- Compensations -------------
 def compensations(request):
     compensations = Compensation.objects.all()
+    employees_has_compensations = Employee.objects.all().filter(is_compensation=True)
+    employees_no_has_compensations = Employee.objects.all().filter(is_compensation=False)
 
     if request.method == "GET":
         context = {
             'compensations' : compensations,
+            'employees_has_compensations': employees_has_compensations,
+            'employees_no_has_compensations': employees_no_has_compensations,
         }
         return render(request, 'App_Employee\\Compensations\\compensations.html', context)
 
@@ -336,7 +340,7 @@ def create_compensations(request):
 
         if form.is_valid():
             form.save()
-            messages.success(request, 'Create Successfully...')
+            messages.success(request, 'Successfully Created a Reward...')
             return redirect('compensations')
         
         context = {
@@ -409,11 +413,25 @@ def details_compensation(request, id):
     else:
         pass
 
-def get_employee_compensation(request, id):
-    compensations = Compensation.objects.all()
-
+def join_employee_in_compensations(request, copID, empID):
+    compensation = Compensation.objects.get(pk=copID)
+    employee = Employee.objects.get(pk=empID)
+    full_name = employee.first_name +' '+ employee.last_name
+    employee.compensations.add(compensation)
+    employee.is_compensation = True
+    employee.save()
     if request.method == "GET":
-        context = {
-            'compensations' : compensations,
-        }
-        return render(request, 'App_Employee\\Compensations\\get_employee_compensation.html', context)
+        messages.success(request, f"Add Employee: {full_name.title()} in Compensation {compensation.name.title()}")
+        return redirect('details-compensation', id=compensation.id)
+
+
+def remove_employee_in_compensations(request, copID, empID):
+    compensation = Compensation.objects.get(pk=copID)
+    employee = Employee.objects.get(pk=empID)
+    full_name = employee.first_name +' '+ employee.last_name
+    employee.compensations.remove(compensation)
+    if employee.compensations.all().count() == 0:
+        employee.is_compensation = False
+    employee.save()
+    messages.warning(request, f"Remove Employee: {full_name.title()} in Compensation {compensation.name.title()}")
+    return redirect('details-compensation', id=compensation.id)

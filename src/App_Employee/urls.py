@@ -28,6 +28,7 @@ urlpatterns = [
    path('update-compensation/<int:id>/', views.update_compensation, name="update-compensation"),
    path('delete-compensation/<int:id>/', views.delete_compensation, name="delete-compensation"),
 
-   path('get-employee-compensations/<int:id>/', views.get_employee_compensation, name="get-employee-compensations"),
+   path('join-employee-in-compensations/<int:copID>/<int:empID>/', views.join_employee_in_compensations, name="get-employee-compensations"),
+   path('remove-employee-in-compensations/<int:copID>/<int:empID>/', views.remove_employee_in_compensations, name="remove-employee-compensations"),
 
 ]

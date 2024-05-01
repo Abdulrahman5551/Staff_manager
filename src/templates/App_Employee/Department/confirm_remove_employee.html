@@ -17,7 +17,7 @@
                 <form method="POST">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-success mt-2" fdprocessedid="696n2">Yes, Remove</button>
-                    <a type="button" href="{% url 'departments' %}" class="btn btn-info mt-2" fdprocessedid="n7glwj">No, Go Back</a>
+                    <a type="button" href="{% url 'details-department' department.id %}" class="btn btn-info mt-2" fdprocessedid="n7glwj">No, Go Back</a>
                 </form>
             </div>
         </div>

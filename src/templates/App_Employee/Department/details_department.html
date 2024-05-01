@@ -20,6 +20,12 @@
   </div>
   {% endif %}
 
+<div class="d-flex justify-content-center">
+    <div>
+    <h1>Details Department</h1>
+</div>
+</div>
+<hr>
     <div class="row mt-5">
 
       <div class="col-sm-4">
@@ -33,16 +39,17 @@
         </div>
 
         <div class="col-sm-3">
-          <div class="p-2">
-            <a type="button" href="{% url 'departments' %}" class="btn btn-info" fdprocessedid="a0kzok">Back to Departments  <i class="fa fa-mail-reply" style="font-size:16px"></i></a>
-          </div>
-        </div>
-        <div class="col-sm-3">
           <div class="p-2 ">
             <a type="button" href="{% url 'update-department' department.id%}" class="btn btn-warning text-light" fdprocessedid="a0kzok">Update Department      <i class="fa fa-pencil-square-o" style="font-size:16px"></i></a>
           </div>
           <div class="p-2">
             <a type="button" href="{% url 'delete-department' department.id%}" class="btn btn-danger text-light" fdprocessedid="a0kzok">Remove Department   <i class="fa fa-minus" style="font-size:16px"></i></a>
+          </div>
+        </div>
+
+        <div class="col-sm-3">
+          <div class="p-2">
+            <a type="button" href="{% url 'departments' %}" class="btn btn-info" fdprocessedid="a0kzok">Back to Departments  <i class="fa fa-mail-reply" style="font-size:16px"></i></a>
           </div>
         </div>
     </div>
@@ -53,7 +60,7 @@
         </div>
         <div class="col-sm-4">
           <div class="p-2">
-            <a type="button" href="{% url 'joining-department' department.id%}" class="btn bg-success text-light" fdprocessedid="a0kzok">Joining Employee    <i class="fa fa-pencil-square-o" style="font-size:16px"></i></a>
+            <a type="button" href="{% url 'joining-department' department.id%}" class="btn bg-success text-light" fdprocessedid="a0kzok">Joining Employee    <i class="fa fa-plus-circle" style="font-size:22px;color:rgb(235, 240, 234)"></i></a>
           </div>
         </div>
     </div>
