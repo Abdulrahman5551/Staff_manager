@@ -34,14 +34,14 @@
         <div class="col-sm-4">
             <h4><i class="fa fa-group" style="font-size:30px"></i> Department:</h4>
             <h5 class="text-light"> <small>Department Name: {{employeeData.department}}</small></h5>
-            <h5 class="text-light"> <small>Department Name: {{employeeData.salary}}</small></h5>
+            <h5 class="text-light"> <small>Salary Name: {{employeeData.salary}}</small></h5>
             <h5 class="text-light "> <small>Joined Date: {{employeeData.join_department_date}}</small></h5>
 
             <h4 class="mt-5"><i class="fa fa-newspaper-o" style="font-size:30px"></i> Compensations:</h4>
             {% if employeeData.compensations.all %}
             <ol>
                 {% for comp in employeeData.compensations.all %}
-                <li>{{ comp }}</li>
+                <li>{{ comp }} +{{comp.reward_price}}</li>
                 {% endfor %}
             </ol>
             {% else %}

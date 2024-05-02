@@ -34,16 +34,34 @@
     </div>
     <div class="row mt-5">
         <div class="col-sm-8">
-            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                <button type="button" class="btn btn-info" fdprocessedid="08t1t5">Sort</button>
-                <div class="btn-group" role="group">
-                  <button id="btnGroupDrop3" type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" fdprocessedid="6b1bwl"></button>
-                  <div class="dropdown-menu" aria-labelledby="btnGroupDrop3">
-                    <a class="dropdown-item" href="#">Dropdown link</a>
-                    <a class="dropdown-item" href="#">Dropdown link</a>
-                  </div>
-                </div>
+          <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+            <i class="fa fa-sliders" style="font-size:22px;color:rgb(253, 251, 251)"></i>
+          </a>
+          <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
+            <div class="offcanvas-body">
+              <div>
+                Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+              </div>
+              <div class="dropdown mt-3">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  Sort By
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><a class="dropdown-item" href="{% url 'dashboard' %}">Default  <i class="fa fa-refresh" style="font-size:19px;color:rgb(245, 244, 244)"></i></a></li>
+                  <li><a class="dropdown-item" href="{% url 'sort-dashboard' 'first_name' %}">First Name <i class="fa fa-sort-alpha-asc" style="font-size:19px;color:rgb(253, 251, 251)"></i></a></li>
+                  <li><a class="dropdown-item" href="{% url 'sort-dashboard' '-first_name' %}">First Name   <i class="fa fa-sort-alpha-desc" style="font-size:19px;color:rgb(253, 251, 251)"></i></a></li><hr>
+                  <li><a class="dropdown-item" href="{% url 'sort-dashboard' 'gender' %}">Gender   <small>' Female '</small></a></li>
+                  <li><a class="dropdown-item" href="{% url 'sort-dashboard' '-gender' %}">Gender   <small>' Male '</small></a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
 
             <a type="button" href="{%url 'create-contact-employee' %}" class="btn btn-success" fdprocessedid="a0kzok">New Employee   <i class="fa fa-plus" style="font-size:16px"></i></a>
         </div>
@@ -75,7 +93,7 @@
                   <td>{{ employee.gender }}</td>
                   <td>{{ employee.birth_date }}</td>
                   <td>{{ employee.department }}</td>
-                  <td>Column content</td>
+                  <td>{{ employee.compensations.all.count }}</td>
                   <td><a href="{% url 'details-employee' employee.id %}"><i class="fa fa-eye" style="font-size:20px;color:red"></i></a></td>
                 </tr>
               {% endfor %}

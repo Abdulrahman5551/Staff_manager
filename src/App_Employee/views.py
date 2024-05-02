@@ -15,17 +15,77 @@ def index(request):
 
 # Dashboard : view All Employees and link Department and Compensation Pages
 def dashboard(request):
-    employees = Employee.objects.all()
-    departments = Department.objects.all()
-    compensations = Compensation.objects.all()
 
-    context = {
-        'title': 'Dashboard Page',
-        'employees': employees,
-        'departments': departments,
-        'compensations': compensations,
-    }
-    return render(request, 'App_Employee\\Employees\\dashboard.html', context)
+    if request.method == "GET":
+        employees = Employee.objects.all()
+        departments = Department.objects.all()
+        compensations = Compensation.objects.all()
+
+        context = {
+            'title': 'Dashboard Page',
+            'employees': employees,
+            'departments': departments,
+            'compensations': compensations,
+        }
+        return render(request, 'App_Employee\\Employees\\dashboard.html', context)
+    
+    elif request.method == "POST":
+        pass
+
+def sort_dashboard(request, sort_by):
+    if sort_by == "first_name":
+        employees = Employee.objects.all().order_by(sort_by)
+        departments = Department.objects.all()
+        compensations = Compensation.objects.all()
+
+        context = {
+            'title': 'Dashboard Page',
+            'employees': employees,
+            'departments': departments,
+            'compensations': compensations,
+        }
+        return render(request, 'App_Employee\\Employees\\dashboard.html', context)
+    
+    elif sort_by == '-first_name':
+        employees = Employee.objects.all().order_by(sort_by)
+        departments = Department.objects.all()
+        compensations = Compensation.objects.all()
+
+        context = {
+            'title': 'Dashboard Page',
+            'employees': employees,
+            'departments': departments,
+            'compensations': compensations,
+        }
+        return render(request, 'App_Employee\\Employees\\dashboard.html', context)
+    
+    elif sort_by == 'gender':
+        employees = Employee.objects.all().order_by(sort_by)
+        departments = Department.objects.all()
+        compensations = Compensation.objects.all()
+
+        context = {
+            'title': 'Dashboard Page',
+            'employees': employees,
+            'departments': departments,
+            'compensations': compensations,
+        }
+        return render(request, 'App_Employee\\Employees\\dashboard.html', context)
+    
+    elif sort_by == '-gender':
+        employees = Employee.objects.all().order_by(sort_by)
+        departments = Department.objects.all()
+        compensations = Compensation.objects.all()
+
+        context = {
+            'title': 'Dashboard Page',
+            'employees': employees,
+            'departments': departments,
+            'compensations': compensations,
+        }
+        return render(request, 'App_Employee\\Employees\\dashboard.html', context)
+    return redirect('dashboard')
+    
 
 
 ###############################################################################################
@@ -103,7 +163,6 @@ def create_employee(request):
 
 def details_employee(request, id):
     employeeData = get_object_or_404(Employee, pk=id)
-    print(employeeData.salary)
 
     if request.method == "GET":
         context = {
