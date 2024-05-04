@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.utils import timezone
 import datetime
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def index(request):
@@ -13,6 +14,7 @@ def index(request):
     }
     return render(request, 'App_Employee\index.html', context)
 
+@login_required
 # Dashboard : view All Employees and link Department and Compensation Pages
 def dashboard(request):
 
@@ -30,8 +32,20 @@ def dashboard(request):
         return render(request, 'App_Employee\\Employees\\dashboard.html', context)
     
     elif request.method == "POST":
-        pass
+        result = request.POST.get('result_search')
+        employees = Employee.objects.all().filter(first_name__icontains=result)|Employee.objects.all().filter(last_name__icontains=result).order_by('first_name')
+        departments = Department.objects.all()
+        compensations = Compensation.objects.all()
 
+        context = {
+            'title': 'Dashboard Page',
+            'employees': employees,
+            'departments': departments,
+            'compensations': compensations,
+        }
+        return render(request, 'App_Employee\\Employees\\dashboard.html', context)
+
+@login_required
 def sort_dashboard(request, sort_by):
     if sort_by == "first_name":
         employees = Employee.objects.all().order_by(sort_by)
@@ -84,6 +98,32 @@ def sort_dashboard(request, sort_by):
             'compensations': compensations,
         }
         return render(request, 'App_Employee\\Employees\\dashboard.html', context)
+    
+    elif sort_by == "creation_date":
+        employees = Employee.objects.all().order_by(sort_by)
+        departments = Department.objects.all()
+        compensations = Compensation.objects.all()
+
+        context = {
+            'title': 'Dashboard Page',
+            'employees': employees,
+            'departments': departments,
+            'compensations': compensations,
+        }
+        return render(request, 'App_Employee\\Employees\\dashboard.html', context)
+    
+    elif sort_by == "-creation_date":
+        employees = Employee.objects.all().order_by(sort_by)
+        departments = Department.objects.all()
+        compensations = Compensation.objects.all()
+
+        context = {
+            'title': 'Dashboard Page',
+            'employees': employees,
+            'departments': departments,
+            'compensations': compensations,
+        }
+        return render(request, 'App_Employee\\Employees\\dashboard.html', context)
     return redirect('dashboard')
     
 
@@ -92,6 +132,7 @@ def sort_dashboard(request, sort_by):
 
 # -------- Contact -------------
 
+@login_required
 def create_contact(request):
     # Create form Contact
     form_contact = CreateContactEmployeeModelForm()
@@ -134,6 +175,7 @@ def create_contact(request):
 
 
 # -------- Employee -------------
+@login_required
 def create_employee(request):
     if request.method == "GET":
         form_employee = CreateEmployeeModelForm()
@@ -160,7 +202,7 @@ def create_employee(request):
     return redirect('dashboard')
     
             
-
+@login_required
 def details_employee(request, id):
     employeeData = get_object_or_404(Employee, pk=id)
 
@@ -171,6 +213,7 @@ def details_employee(request, id):
     }
     return render(request, 'App_Employee\\Employees\\details_employee.html', context)
 
+@login_required
 def update_employee(request, id):
     employee_data = get_object_or_404(Employee,pk=id)
 
@@ -209,6 +252,8 @@ def update_employee(request, id):
     
     return redirect('details-employee', id=employee_data.id)
 
+
+@login_required
 def delete_employee(request, id):
     employee_data = get_object_or_404(Employee,pk=id)
 
@@ -230,11 +275,11 @@ def delete_employee(request, id):
     return redirect('dashboard')
 
 
-
 ###############################################################################################
 
 
 # -------- Department -------------
+@login_required
 def departments(request):
     departments = Department.objects.all()
     employees_joined = Employee.objects.filter(is_department=True)
@@ -246,6 +291,8 @@ def departments(request):
     }
     return render(request, 'App_Employee\\Department\\departments.html', context)
 
+
+@login_required
 def create_department(request):
     if request.method == "GET":
         form = CreateDepartmentModelForm()
@@ -268,6 +315,8 @@ def create_department(request):
             }
             return render(request, 'App_Employee\\\Department\\create_department.html', context)
 
+
+@login_required
 def details_department(request, id):
     department = get_object_or_404(Department, pk=id)
 
@@ -277,6 +326,8 @@ def details_department(request, id):
     }
     return render(request, 'App_Employee\\\Department\\details_department.html', context)
 
+
+@login_required
 def update_department(request, id):
     department = Department.objects.get(pk=id)
     
@@ -301,7 +352,9 @@ def update_department(request, id):
             'form': form,
             }
             return render(request, 'App_Employee\\\Department\\update_department.html', context)
-        
+
+
+@login_required      
 def delete_department(request, id):
     department = get_object_or_404(Department, pk=id)
     if request.method == "GET":
@@ -318,6 +371,8 @@ def delete_department(request, id):
             }
         return render(request, 'App_Employee\\\Department\\confirm_delete_department.html', context)
 
+
+@login_required
 def joining_department(request, id):
     department = Department.objects.get(pk=id)
     employees = Employee.objects.all().filter(is_department=False)
@@ -340,7 +395,7 @@ def joining_department(request, id):
 
     return redirect('departments')
 
-
+@login_required
 def remove_employee_from_department(request, id):
     employee = Employee.objects.get(pk=id)
     department = employee.department
@@ -367,6 +422,7 @@ def remove_employee_from_department(request, id):
 
 
 # -------- Compensations -------------
+@login_required
 def compensations(request):
     compensations = Compensation.objects.all()
     employees_has_compensations = Employee.objects.all().filter(is_compensation=True)
@@ -382,6 +438,7 @@ def compensations(request):
 
 
 # Create Compensations
+@login_required
 def create_compensations(request):
     form = CreateCompensationModelForm()
 
@@ -408,7 +465,7 @@ def create_compensations(request):
 
         return render(request, 'App_Employee\\Compensations\\create_compensation.html', context)
 
-
+@login_required
 def update_compensation(request, id):
     compensation = Compensation.objects.get(pk=id)
     
@@ -437,7 +494,7 @@ def update_compensation(request, id):
 
             return render(request, 'App_Employee\\Compensations\\update_compensation.html', context)
 
-
+@login_required
 def delete_compensation(request, id):
     compensation = Compensation.objects.get(pk=id)
 
@@ -454,7 +511,7 @@ def delete_compensation(request, id):
         compensation.delete()
         return render(request, 'App_Employee\\Compensations\\confirm_delete_compensation.html')
     
-
+@login_required
 def details_compensation(request, id):
     compensation = get_object_or_404(Compensation, pk=id)
     employee_has_compensation = compensation.employee_set.all()
@@ -472,6 +529,7 @@ def details_compensation(request, id):
     else:
         pass
 
+@login_required
 def join_employee_in_compensations(request, copID, empID):
     compensation = Compensation.objects.get(pk=copID)
     employee = Employee.objects.get(pk=empID)
@@ -483,7 +541,7 @@ def join_employee_in_compensations(request, copID, empID):
         messages.success(request, f"Add Employee: {full_name.title()} in Compensation {compensation.name.title()}")
         return redirect('details-compensation', id=compensation.id)
 
-
+@login_required
 def remove_employee_in_compensations(request, copID, empID):
     compensation = Compensation.objects.get(pk=copID)
     employee = Employee.objects.get(pk=empID)

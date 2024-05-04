@@ -1,0 +1,39 @@
+{% load widget_tweaks %}
+
+
+{% if form.non_field_errors %}
+<div class="alert alert-danger" role="alert">
+{% for error in form.non_field_errors %}
+<p class="mb-0">{% if forloop.last %} {{ error }} {% endif %}</p>
+{% endfor %}
+</div>
+{% endif %}
+
+
+{% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+
+                <!-- هل يوجد بيانات او لا -->
+                {% if form.is_bound %} 
+
+                    <!-- هل يحتوي هذا الحقل على خطأ -->
+                    {% if field.errors %}
+
+                        <!-- اذا كان يحتوي على خطأ اظهر لون احمر -->
+                        {% render_field field class="form-control is-invalid" %}
+                        
+                        <!-- اظهار رسالة الخطاء -->
+                        {% for error in field.errors %}
+                            <div class="invallid-feedback">{{ error}}</div>
+                        {% endfor %}
+                    {% else %}
+
+                        <!-- اذا كان لايوجد خطأ اظهر لون اخضر -->
+                        {% render_field field class="form-control is-valid" %}
+                    {% endif %}
+                {% else %}
+                {% render_field field class="form-control" %}
+                {% endif %}
+            </div>
+{% endfor %}
