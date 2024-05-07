@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
-from .forms import LoginForm, RegisterForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import LoginForm, RegisterForm, UpdateUserForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
+from django.contrib.auth.models import User
 # Create your views here.
 
 def sign_in(request):
@@ -55,3 +56,39 @@ def sign_up(request):
             'form': RegisterForm(request.POST),
             }
         return render(request, 'App_Accounts//register.html', context)
+    
+def profile(request, id):
+    user = get_object_or_404(User, pk=id)
+
+    if request.method == "GET":
+        context = {
+            'user': user,
+        }
+        return render(request, 'App_Accounts//profile.html', context)
+
+def update_profile(request, id):
+    user = get_object_or_404(User, pk=id)
+
+    if request.method == "GET":
+        profile_form = UpdateUserForm(instance=user)
+
+        context = {
+            'profile_form': profile_form,
+        }
+
+        return render(request, 'App_Accounts//update_profile.html', context)
+    
+    elif request.method == "POST":
+        profile_form = UpdateUserForm(request.POST, instance=user)
+
+        if profile_form.is_valid():
+            profile_form.save()
+            return redirect('profile-user', id=user.id)
+        
+        else:
+
+            context = {
+                'profile_form': UpdateUserForm(request.POST, instance=user),
+            }
+
+            return render(request, 'App_Accounts//update_profile.html', context)
